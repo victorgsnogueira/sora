@@ -6,7 +6,7 @@ import {
   jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
-  ZodTypeProvider,
+  type ZodTypeProvider,
 } from 'fastify-type-provider-zod';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
