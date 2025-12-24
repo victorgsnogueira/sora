@@ -1,0 +1,191 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  discordId     String         @id @map("discord_id") @db.VarChar(255)
+  email         String?        @db.VarChar(255)
+  avatar        String?        @db.VarChar(255)
+  globalName    String?        @map("global_name") @db.VarChar(255)
+  
+  bots          Bot[]
+  subscriptions Subscription[]
+  payments      Payment[]
+
+  @@map("user")
+}
+
+model Plan {
+  planId           String         @id @map("plan_id") @db.VarChar(50)
+  publicName       String?        @map("public_name") @db.VarChar(100)
+  description      String?        @db.VarChar(255)
+  priceCents       Int            @map("price_cents")
+  billingCycle     String?        @map("billing_cycle") @db.VarChar(20)
+  maxBots          Int?           @map("max_bots")
+  maxGuilds        Int?           @map("max_guilds")
+  hasCustomAvatar  Boolean?       @map("has_custom_avatar") @db.TinyInt
+  hasCustomBanner  Boolean?       @map("has_custom_banner") @db.TinyInt
+  hasTeamAccess    Boolean?       @map("has_team_access") @db.TinyInt
+  isActive         Boolean?       @map("is_active") @db.TinyInt
+  createdAt        DateTime?      @map("created_at") @db.DateTime
+  updatedAt        DateTime?      @map("updated_at") @db.DateTime
+  
+  coupons       Coupon[]
+  subscriptions Subscription[]
+  payments      Payment[]
+
+  @@map("plan")
+}
+
+model Bot {
+  botId     String      @id @map("bot_id") @db.VarChar(100)
+  name      String?     @db.VarChar(100)
+  userId    String?     @map("user_id") @db.VarChar(255)
+  token     String?     @db.VarChar(255)
+  clientId  String?     @map("client_id") @db.VarChar(255)
+  isActive  Boolean     @default(true) @map("is_active") @db.TinyInt
+  createdAt DateTime    @default(now()) @map("created_at") @db.DateTime
+  updatedAt DateTime    @default(now()) @updatedAt @map("updated_at") @db.DateTime
+  
+  user      User?       @relation(fields: [userId], references: [discordId], onDelete: Cascade)
+  botGuilds BotGuild[]
+
+  @@map("bot")
+  @@index([userId])
+}
+
+model Guild {
+  guildId    String       @id @map("guild_id") @db.VarChar(255)
+  name       String?      @db.VarChar(255)
+  status     GuildStatus? @default(PENDING)
+  addedAt    DateTime     @default(now()) @map("added_at") @db.DateTime
+  verifiedAt DateTime?    @map("verified_at") @db.DateTime
+  
+  botGuilds  BotGuild[]
+
+  @@map("guild")
+  @@index([status])
+}
+
+model BotGuild {
+  botGuildId Int       @id @default(autoincrement()) @map("bot_guild_id")
+  botId      String?   @map("bot_id") @db.VarChar(100)
+  guildId    String?   @map("guild_id") @db.VarChar(255)
+  createdAt  DateTime  @default(now()) @map("created_at") @db.DateTime
+  
+  bot        Bot?      @relation(fields: [botId], references: [botId], onDelete: Cascade)
+  guild      Guild?    @relation(fields: [guildId], references: [guildId], onDelete: Cascade)
+  categories Category[]
+  messages   Message[]
+
+  @@unique([botId, guildId], name: "IX_bot_guild_bot_id_guild_id")
+  @@map("bot_guild")
+}
+
+model Category {
+  categoryId  Int       @id @default(autoincrement()) @map("category_id")
+  name        String?   @db.VarChar(100)
+  botGuildId  Int?      @map("bot_guild_id")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.DateTime
+  
+  botGuild    BotGuild? @relation(fields: [botGuildId], references: [botGuildId], onDelete: Cascade)
+
+  @@map("category")
+}
+
+model Message {
+  messageId   Int       @id @default(autoincrement()) @map("message_id")
+  botGuildId  Int?      @map("bot_guild_id")
+  content     String?   @db.Text
+  messageType String?   @map("message_type") @db.VarChar(20)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.DateTime
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at") @db.DateTime
+  
+  botGuild    BotGuild? @relation(fields: [botGuildId], references: [botGuildId], onDelete: Cascade)
+
+  @@map("message")
+}
+
+model Coupon {
+  codeId           String    @id @map("code_id") @db.VarChar(100)
+  publicCode       String?   @map("public_code") @db.VarChar(50)
+  description      String?   @db.VarChar(255)
+  discountType     String?   @map("discount_type") @db.VarChar(10)
+  discountValue    Decimal?  @map("discount_value") @db.Decimal(10, 2)
+  validFrom        DateTime? @map("valid_from") @db.DateTime
+  validUntil       DateTime? @map("valid_until") @db.DateTime
+  maxUses          Int?      @map("max_uses")
+  maxUsesPerUser   Int?      @map("max_uses_per_user")
+  appliesToPlan    String?   @map("applies_to_plan") @db.VarChar(50)
+  isActive         Boolean?  @map("is_active") @db.TinyInt
+  
+  plan             Plan?     @relation(fields: [appliesToPlan], references: [planId], onDelete: Restrict)
+  payments         Payment[]
+
+  @@map("coupon")
+}
+
+model Subscription {
+  subscriptionId Int       @id @default(autoincrement()) @map("subscription_id")
+  userId         String?   @map("user_id") @db.VarChar(255)
+  planId         String?   @map("plan_id") @db.VarChar(50)
+  startedAt      DateTime? @map("started_at") @db.DateTime
+  expiresAt      DateTime? @map("expires_at") @db.DateTime
+  status         String?   @db.VarChar(20)
+  isTrial        Boolean?  @map("is_trial") @db.TinyInt
+  lastPaymentId  Int?      @unique @map("last_payment_id")
+  
+  user           User?     @relation(fields: [userId], references: [discordId], onDelete: Cascade)
+  plan           Plan?     @relation(fields: [planId], references: [planId], onDelete: Restrict)
+  lastPayment    Payment?  @relation("LastPayment", fields: [lastPaymentId], references: [paymentId], onDelete: Restrict)
+  payments       Payment[] @relation("SubscriptionPayments")
+
+  @@map("subscription")
+}
+
+model Payment {
+  paymentId        Int           @id @default(autoincrement()) @map("payment_id")
+  subscriptionId   Int?          @map("subscription_id")
+  userId           String?       @map("user_id") @db.VarChar(255)
+  planId           String?        @map("plan_id") @db.VarChar(50)
+  couponCodeId     String?        @map("coupon_code_id") @db.VarChar(100)
+  mpPaymentId      String?        @map("mp_payment_id") @db.VarChar(100)
+  mpStatus         PaymentStatus? @map("mp_status")
+  mpStatusDetail   String?        @map("mp_status_detail") @db.VarChar(255)
+  mpPaymentMethod  String?        @map("mp_payment_method") @db.VarChar(50)
+  mpPaymentType    String?        @map("mp_payment_type") @db.VarChar(50)
+  amountCents      Int           @map("amount_cents")
+  discountCents    Int?          @map("discount_cents")
+  currency         String?       @db.VarChar(10)
+  paidAt           DateTime?     @map("paid_at") @db.DateTime
+  expiresAt        DateTime?     @map("expires_at") @db.DateTime
+  createdAt        DateTime?     @map("created_at") @db.DateTime
+  updatedAt        DateTime?     @map("updated_at") @db.DateTime
+  
+  user             User?         @relation(fields: [userId], references: [discordId], onDelete: Cascade)
+  plan             Plan?         @relation(fields: [planId], references: [planId], onDelete: Restrict)
+  subscription     Subscription? @relation("SubscriptionPayments", fields: [subscriptionId], references: [subscriptionId], onDelete: Cascade)
+  coupon           Coupon?       @relation(fields: [couponCodeId], references: [codeId], onDelete: Restrict)
+  lastPaymentFor   Subscription? @relation("LastPayment")
+
+  @@map("payment")
+  @@index([mpPaymentId])
+}
+
+enum PaymentStatus {
+  APPROVED
+  PENDING
+  REJECTED
+  REFUNDED
+}
+
+enum GuildStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
