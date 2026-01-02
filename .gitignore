@@ -37,3 +37,10 @@ docker-compose.override.yml
 
 # TypeScript
 *.tsbuildinfo
+
+# Outros
+count.txt
+.nitro
+.tanstack
+.wrangler
+.agent
