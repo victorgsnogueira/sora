@@ -1,17 +1,17 @@
-import type {
-	MessageConfig,
-	BotConfig,
-	Embed,
-	ActionRow,
-	SelectMenu,
-} from '@/types/discord';
+import { X } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { ScrollArea } from '@/shared/components/ui/scroll-area';
-import { X } from 'lucide-react';
+import type {
+	ActionRow,
+	BotConfig,
+	Embed,
+	MessageConfig,
+	SelectMenu,
+} from '@/types/discord';
 import { BotEditor } from './BotEditor';
-import { MessageContentEditor } from './MessageContentEditor';
-import { EmbedEditor } from './EmbedEditor';
 import { ButtonEditor } from './ButtonEditor';
+import { EmbedEditor } from './EmbedEditor';
+import { MessageContentEditor } from './MessageContentEditor';
 import { SelectMenuEditor } from './SelectMenuEditor';
 
 interface EditorPanelProps {
@@ -60,13 +60,14 @@ export function EditorPanel({
 	};
 
 	const getPanelTitle = () => {
-		if (activePanel === 'bot') return 'Bot Settings';
-		if (activePanel === 'message') return 'Message Content';
-		if (activePanel === 'buttons') return 'Buttons';
-		if (activePanel === 'selectmenus') return 'Select Menus';
+		if (activePanel === 'bot') return 'Configurações do Bot';
+		if (activePanel === 'message') return 'Conteúdo da Mensagem';
+		if (activePanel === 'buttons') return 'Botões';
+		if (activePanel === 'selectmenus') return 'Menus de Seleção';
 		if (activePanel.startsWith('embed-')) {
 			const index = parseInt(activePanel.split('-')[1], 10);
-			return `Embed ${index + 1}`;
+			const embed = message.embeds[index];
+			return embed?.title || `Embed ${index + 1}`;
 		}
 		return 'Editor';
 	};

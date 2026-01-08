@@ -1,4 +1,4 @@
-import { Zap, Terminal, Eye } from 'lucide-react';
+import { Eye, Terminal, Zap } from 'lucide-react';
 
 export const FeaturesSection = () => {
 	return (

@@ -1,4 +1,15 @@
-import type { MessageConfig, Embed } from '@/types/discord';
+import {
+	Bot,
+	Check,
+	Copy,
+	LayoutGrid,
+	List,
+	MessageSquare,
+	MousePointerClick,
+	Plus,
+	Trash2,
+} from 'lucide-react';
+import { useState } from 'react';
 import { Button } from '@/shared/components/ui/button';
 import {
 	Tooltip,
@@ -6,19 +17,8 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from '@/shared/components/ui/tooltip';
-import {
-	Bot,
-	MessageSquare,
-	LayoutGrid,
-	Copy,
-	Check,
-	Trash2,
-	Plus,
-	MousePointerClick,
-	List,
-} from 'lucide-react';
-import { useState } from 'react';
 import { toast } from '@/shared/hooks/use-toast';
+import type { Embed, MessageConfig } from '@/types/discord';
 
 interface PlaygroundToolbarProps {
 	message: MessageConfig;
@@ -38,8 +38,8 @@ export function PlaygroundToolbar({
 	const addEmbed = () => {
 		if (message.embeds.length >= 10) {
 			toast({
-				title: 'Limit reached',
-				description: 'You can only add up to 10 embeds per message.',
+				title: 'Limite atingido',
+				description: 'Você só pode adicionar até 10 embeds por mensagem.',
 				variant: 'destructive',
 			});
 			return;
@@ -78,47 +78,49 @@ export function PlaygroundToolbar({
 		});
 		onPanelChange(null);
 		toast({
-			title: 'Cleared!',
+			title: 'Limpo!',
 			description:
-				'Message content, embeds, buttons, and select menus have been cleared.',
+				'Conteúdo da mensagem, embeds, botões e menus de seleção foram limpos.',
 		});
 	};
 
 	const generateJSON = () => {
 		const jsonOutput: {
 			content: string | null;
-			embeds: unknown[];
+			embeds: unknown[] | null;
 			components?: unknown[];
 		} = {
 			content: message.content || null,
-			embeds: message.embeds.map((embed) => ({
-				title: embed.title || undefined,
-				description: embed.description || undefined,
-				url: embed.url || undefined,
-				color: parseInt(embed.color.replace('#', ''), 16),
-				author: embed.author.name
-					? {
-							name: embed.author.name,
-							icon_url: embed.author.iconUrl || undefined,
-							url: embed.author.url || undefined,
-						}
-					: undefined,
-				thumbnail: embed.thumbnail ? { url: embed.thumbnail } : undefined,
-				image: embed.image ? { url: embed.image } : undefined,
-				footer: embed.footer.text
-					? {
-							text: embed.footer.text,
-							icon_url: embed.footer.iconUrl || undefined,
-						}
-					: undefined,
-				fields: embed.fields.length
-					? embed.fields.map((field) => ({
-							name: field.name,
-							value: field.value,
-							inline: field.inline,
-						}))
-					: undefined,
-			})),
+			embeds: message.embeds.length
+				? message.embeds.map((embed) => ({
+						title: embed.title || undefined,
+						description: embed.description || undefined,
+						url: embed.url || undefined,
+						color: parseInt(embed.color.replace('#', ''), 16),
+						author: embed.author.name
+							? {
+									name: embed.author.name,
+									icon_url: embed.author.iconUrl || undefined,
+									url: embed.author.url || undefined,
+								}
+							: undefined,
+						thumbnail: embed.thumbnail ? { url: embed.thumbnail } : undefined,
+						image: embed.image ? { url: embed.image } : undefined,
+						footer: embed.footer.text
+							? {
+									text: embed.footer.text,
+									icon_url: embed.footer.iconUrl || undefined,
+								}
+							: undefined,
+						fields: embed.fields.length
+							? embed.fields.map((field) => ({
+									name: field.name,
+									value: field.value,
+									inline: field.inline,
+								}))
+							: undefined,
+					}))
+				: null,
 			components:
 				[
 					...(message.components.length
@@ -176,8 +178,9 @@ export function PlaygroundToolbar({
 		navigator.clipboard.writeText(JSON.stringify(jsonOutput, null, 2));
 		setCopied(true);
 		toast({
-			title: 'JSON Copied!',
-			description: 'The message JSON has been copied to your clipboard.',
+			title: 'JSON Copiado!',
+			description:
+				'O JSON da mensagem foi copiado para sua área de transferência.',
 		});
 		setTimeout(() => setCopied(false), 2000);
 	};
@@ -191,31 +194,31 @@ export function PlaygroundToolbar({
 		{
 			id: 'bot',
 			icon: Bot,
-			label: 'Bot Settings',
+			label: 'Configurações do Bot',
 			active: activePanel === 'bot',
 		},
 		{
 			id: 'message',
 			icon: MessageSquare,
-			label: 'Message Content',
+			label: 'Conteúdo da Mensagem',
 			active: activePanel === 'message',
 		},
 		{
 			id: 'buttons',
 			icon: MousePointerClick,
-			label: `Buttons (${totalButtons}/25)`,
+			label: `Botões (${totalButtons}/25)`,
 			active: activePanel === 'buttons',
 		},
 		{
 			id: 'selectmenus',
 			icon: List,
-			label: `Select Menus (${message.selectMenus.length}/5)`,
+			label: `Menus de Seleção (${message.selectMenus.length}/5)`,
 			active: activePanel === 'selectmenus',
 		},
 		{
 			id: 'add-embed',
 			icon: Plus,
-			label: `Add Embed (${message.embeds.length}/10)`,
+			label: `Adicionar Embed (${message.embeds.length}/10)`,
 			action: addEmbed,
 		},
 	];
@@ -223,14 +226,14 @@ export function PlaygroundToolbar({
 	return (
 		<TooltipProvider delayDuration={200}>
 			<div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-				<div className="flex items-center gap-1 p-2 bg-card/95 backdrop-blur-sm border border-border rounded-2xl shadow-clay">
+				<div className="flex items-center gap-1 p-2 bg-card border border-border rounded-sm shadow-clay">
 					{tools.map((tool) => (
 						<Tooltip key={tool.id}>
 							<TooltipTrigger asChild>
 								<Button
 									variant={tool.active ? 'default' : 'ghost'}
 									size="icon"
-									className={`w-12 h-12 rounded-xl transition-all ${
+									className={`w-12 h-12 rounded-sm transition-all ${
 										tool.active
 											? 'bg-primary text-primary-foreground shadow-clay-sm'
 											: 'hover:bg-secondary'
@@ -264,7 +267,7 @@ export function PlaygroundToolbar({
 													activePanel === `embed-${index}` ? 'default' : 'ghost'
 												}
 												size="icon"
-												className={`w-10 h-10 rounded-xl transition-all relative ${
+												className={`w-10 h-10 rounded-lg transition-all relative ${
 													activePanel === `embed-${index}`
 														? 'bg-primary text-primary-foreground shadow-clay-sm'
 														: 'hover:bg-secondary'
@@ -293,7 +296,7 @@ export function PlaygroundToolbar({
 											side="top"
 											className="bg-card border-border"
 										>
-											<p>Embed {index + 1}</p>
+											<p>{embed.title || `Embed ${index + 1}`}</p>
 										</TooltipContent>
 									</Tooltip>
 								))}
@@ -319,7 +322,7 @@ export function PlaygroundToolbar({
 							</Button>
 						</TooltipTrigger>
 						<TooltipContent side="top" className="bg-card border-border">
-							<p>{copied ? 'Copied!' : 'Copy JSON'}</p>
+							<p>{copied ? 'Copiado!' : 'Copiar JSON'}</p>
 						</TooltipContent>
 					</Tooltip>
 
@@ -328,14 +331,14 @@ export function PlaygroundToolbar({
 							<Button
 								variant="ghost"
 								size="icon"
-								className="w-12 h-12 rounded-xl hover:bg-destructive/10 hover:text-destructive"
+								className="w-12 h-12 rounded-lg hover:bg-destructive/10 hover:text-destructive"
 								onClick={clearAll}
 							>
 								<Trash2 className="w-5 h-5" />
 							</Button>
 						</TooltipTrigger>
 						<TooltipContent side="top" className="bg-card border-border">
-							<p>Clear All</p>
+							<p>Limpar Tudo</p>
 						</TooltipContent>
 					</Tooltip>
 				</div>

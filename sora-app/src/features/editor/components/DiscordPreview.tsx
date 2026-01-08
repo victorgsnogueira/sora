@@ -1,7 +1,7 @@
-import type { MessageConfig } from '@/types/discord';
-import { CheckCircle2, ExternalLink, ChevronDown } from 'lucide-react';
 import { format } from 'date-fns';
+import { ChevronDown, ExternalLink } from 'lucide-react';
 import { useState } from 'react';
+import type { MessageConfig } from '@/types/discord';
 
 interface DiscordPreviewProps {
 	message: MessageConfig;
@@ -136,18 +136,20 @@ function parseDiscordMarkdown(text: string): React.ReactNode {
 					<button
 						key={createKey('spoiler', content, i)}
 						type="button"
-						className="bg-muted-foreground/80 hover:bg-transparent cursor-pointer transition-colors rounded px-0.5 select-none"
+						className="bg-[#2f3136] text-transparent hover:bg-[#35373c] transition-colors rounded px-0.5"
 						onClick={(e) => {
 							const target = e.currentTarget;
-							target.classList.toggle('bg-transparent');
-							target.classList.toggle('bg-muted-foreground/80');
+							target.classList.toggle('text-transparent');
+							target.classList.toggle('bg-[#2f3136]');
+							target.classList.toggle('bg-muted-foreground/20');
 						}}
 						onKeyDown={(e) => {
 							if (e.key === 'Enter' || e.key === ' ') {
 								e.preventDefault();
 								const target = e.currentTarget;
-								target.classList.toggle('bg-transparent');
-								target.classList.toggle('bg-muted-foreground/80');
+								target.classList.toggle('text-transparent');
+								target.classList.toggle('bg-[#2f3136]');
+								target.classList.toggle('bg-muted-foreground/20');
 							}
 						}}
 					>
@@ -192,7 +194,7 @@ export function DiscordPreview({ message }: DiscordPreviewProps) {
 		<div className="bg-discord-dark min-h-full rounded-2xl shadow-clay overflow-visible">
 			<div className="bg-discord-darker px-4 py-3 border-b border-border flex items-center gap-2">
 				<span className="text-muted-foreground">#</span>
-				<span className="text-foreground font-medium">preview-channel</span>
+				<span className="text-foreground font-medium">canal-visualizacao</span>
 			</div>
 
 			<div className="p-4">
@@ -214,19 +216,14 @@ export function DiscordPreview({ message }: DiscordPreviewProps) {
 							<span className="font-medium text-foreground hover:underline cursor-pointer">
 								{bot.name || 'Bot'}
 							</span>
-							{bot.verified && (
-								<span className="bg-primary text-primary-foreground text-[10px] px-1.5 py-0.5 rounded font-medium flex items-center gap-0.5">
-									<CheckCircle2 className="w-3 h-3" />
-									BOT
-								</span>
-							)}
+
 							<span className="text-xs text-muted-foreground">
-								Today at {format(now, 'h:mm a')}
+								Hoje às {format(now, 'HH:mm')}
 							</span>
 						</div>
 
 						{content && (
-							<p className="text-foreground whitespace-pre-wrap break-words">
+							<p className="text-foreground whitespace-pre-wrap wrap-break-word">
 								{parseDiscordMarkdown(content)}
 							</p>
 						)}
@@ -287,7 +284,7 @@ export function DiscordPreview({ message }: DiscordPreviewProps) {
 												))}
 
 											{embed.description && (
-												<p className="text-sm text-secondary-foreground whitespace-pre-wrap break-words overflow-wrap-anywhere mb-3">
+												<p className="text-sm text-secondary-foreground whitespace-pre-wrap wrap-break-word overflow-wrap-anywhere mb-3">
 													{parseDiscordMarkdown(embed.description)}
 												</p>
 											)}
@@ -317,7 +314,7 @@ export function DiscordPreview({ message }: DiscordPreviewProps) {
 											<img
 												src={embed.thumbnail}
 												alt=""
-												className="w-20 h-20 rounded object-cover flex-shrink-0"
+												className="w-20 h-20 rounded object-cover shrink-0"
 												onError={(e) => {
 													(e.target as HTMLImageElement).style.display = 'none';
 												}}

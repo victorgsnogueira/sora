@@ -1,10 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
+import { DiscordPreview } from '@/features/editor/components/DiscordPreview';
+import { EditorPanel } from '@/features/editor/components/EditorPanel';
+import { PlaygroundToolbar } from '@/features/editor/components/PlaygroundToolbar';
 import type { MessageConfig } from '@/types/discord';
 import { DEFAULT_MESSAGE } from '@/types/discord';
-import { DiscordPreview } from '@/features/editor/components/DiscordPreview';
-import { PlaygroundToolbar } from '@/features/editor/components/PlaygroundToolbar';
-import { EditorPanel } from '@/features/editor/components/EditorPanel';
 
 export const Route = createFileRoute('/editor')({
 	component: EditorPage,

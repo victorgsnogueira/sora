@@ -1,11 +1,11 @@
-import type { SelectMenu, SelectOption } from '@/types/discord';
-import { DEFAULT_SELECT_OPTION } from '@/types/discord';
+import { GripVertical, Plus, Trash2 } from 'lucide-react';
+import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
 import { Switch } from '@/shared/components/ui/switch';
-import { Button } from '@/shared/components/ui/button';
 import { Textarea } from '@/shared/components/ui/textarea';
-import { Plus, Trash2, GripVertical } from 'lucide-react';
+import type { SelectMenu, SelectOption } from '@/types/discord';
+import { DEFAULT_SELECT_OPTION } from '@/types/discord';
 
 interface SelectMenuEditorProps {
 	selectMenus: SelectMenu[];
@@ -21,7 +21,7 @@ export function SelectMenuEditor({
 
 		const newSelect: SelectMenu = {
 			id: crypto.randomUUID(),
-			placeholder: 'Select an option',
+			placeholder: 'Selecione uma opção',
 			minValues: 1,
 			maxValues: 1,
 			disabled: false,
@@ -73,8 +73,8 @@ export function SelectMenuEditor({
 	return (
 		<div className="space-y-4">
 			<p className="text-sm text-muted-foreground">
-				Add select menus (dropdowns) to your message. Discord allows up to 5
-				select menus per message.
+				Adicione menus de seleção (dropdowns) à sua mensagem. O Discord permite
+				até 5 menus de seleção por mensagem.
 			</p>
 
 			<Button
@@ -84,7 +84,7 @@ export function SelectMenuEditor({
 				disabled={selectMenus.length >= 5}
 			>
 				<Plus className="w-4 h-4 mr-2" />
-				Add Select Menu ({selectMenus.length}/5)
+				Adicionar Menu de Seleção ({selectMenus.length}/5)
 			</Button>
 
 			{selectMenus.map((menu, menuIndex) => (
@@ -96,7 +96,7 @@ export function SelectMenuEditor({
 						<div className="flex items-center gap-2">
 							<GripVertical className="w-4 h-4 text-muted-foreground" />
 							<span className="text-sm font-medium">
-								Select Menu {menuIndex + 1}
+								Menu de Seleção {menuIndex + 1}
 							</span>
 						</div>
 						<Button
@@ -110,20 +110,22 @@ export function SelectMenuEditor({
 					</div>
 
 					<div className="space-y-2">
-						<Label className="text-xs">Placeholder</Label>
+						<Label className="text-xs">
+							Texto de Espaço Reservado (Placeholder)
+						</Label>
 						<Input
 							value={menu.placeholder}
 							onChange={(e) =>
 								updateSelectMenu(menuIndex, { placeholder: e.target.value })
 							}
-							placeholder="Select an option"
+							placeholder="Selecione uma opção"
 							maxLength={150}
 						/>
 					</div>
 
 					<div className="grid grid-cols-2 gap-3">
 						<div className="space-y-2">
-							<Label className="text-xs">Min Values</Label>
+							<Label className="text-xs">Valores Mínimos</Label>
 							<Input
 								type="number"
 								value={menu.minValues}
@@ -140,7 +142,7 @@ export function SelectMenuEditor({
 							/>
 						</div>
 						<div className="space-y-2">
-							<Label className="text-xs">Max Values</Label>
+							<Label className="text-xs">Valores Máximos</Label>
 							<Input
 								type="number"
 								value={menu.maxValues}
@@ -159,7 +161,7 @@ export function SelectMenuEditor({
 					</div>
 
 					<div className="flex items-center justify-between">
-						<Label className="text-xs">Disabled</Label>
+						<Label className="text-xs">Desativado</Label>
 						<Switch
 							checked={menu.disabled}
 							onCheckedChange={(checked) =>
@@ -171,7 +173,7 @@ export function SelectMenuEditor({
 					<div className="pt-2 border-t border-border space-y-2">
 						<div className="flex items-center justify-between">
 							<span className="text-xs font-medium text-muted-foreground">
-								Options ({menu.options.length}/25)
+								Opções ({menu.options.length}/25)
 							</span>
 							<Button
 								variant="ghost"
@@ -181,7 +183,7 @@ export function SelectMenuEditor({
 								className="h-7 text-xs"
 							>
 								<Plus className="w-3 h-3 mr-1" />
-								Add Option
+								Adicionar Opção
 							</Button>
 						</div>
 
@@ -192,7 +194,7 @@ export function SelectMenuEditor({
 							>
 								<div className="flex items-center justify-between">
 									<span className="text-xs text-muted-foreground">
-										Option {optionIndex + 1}
+										Opção {optionIndex + 1}
 									</span>
 									<Button
 										variant="ghost"
@@ -212,7 +214,7 @@ export function SelectMenuEditor({
 											label: e.target.value,
 										})
 									}
-									placeholder="Option label"
+									placeholder="Rótulo da opção"
 									maxLength={100}
 									className="h-8 text-sm"
 								/>
@@ -224,7 +226,7 @@ export function SelectMenuEditor({
 											value: e.target.value,
 										})
 									}
-									placeholder="Option value"
+									placeholder="Valor da opção"
 									maxLength={100}
 									className="h-8 text-sm"
 								/>
@@ -236,7 +238,7 @@ export function SelectMenuEditor({
 											description: e.target.value,
 										})
 									}
-									placeholder="Description (optional)"
+									placeholder="Descrição (opcional)"
 									maxLength={100}
 									className="min-h-[50px] text-sm resize-none"
 								/>
@@ -262,7 +264,7 @@ export function SelectMenuEditor({
 												})
 											}
 										/>
-										<Label className="text-xs">Default</Label>
+										<Label className="text-xs">Padrão</Label>
 									</div>
 								</div>
 							</div>
@@ -273,7 +275,8 @@ export function SelectMenuEditor({
 
 			{selectMenus.length === 0 && (
 				<div className="text-center py-6 text-muted-foreground text-sm">
-					No select menus added yet. Click "Add Select Menu" to get started.
+					Nenhum menu de seleção adicionado ainda. Clique em "Adicionar Menu de
+					Seleção" para começar.
 				</div>
 			)}
 		</div>

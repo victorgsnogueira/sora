@@ -1,6 +1,6 @@
+import { ChevronDownIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from '@/shared/animations/gsap.config';
-import { ChevronDownIcon } from 'lucide-react';
 
 export const DiscordMessagePreview = () => {
 	const containerRef = useRef<HTMLDivElement>(null);

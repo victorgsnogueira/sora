@@ -1,28 +1,28 @@
-import type { Embed, EmbedField } from '@/types/discord';
-import { Input } from '@/shared/components/ui/input';
-import { Label } from '@/shared/components/ui/label';
-import { Textarea } from '@/shared/components/ui/textarea';
-import { Button } from '@/shared/components/ui/button';
-import { Switch } from '@/shared/components/ui/switch';
+import {
+	FileText,
+	Grid3X3,
+	GripVertical,
+	Image,
+	Link,
+	Palette,
+	Plus,
+	Trash2,
+	User,
+} from 'lucide-react';
+import { CharacterCounter } from '@/shared/components/CharacterCounter';
 import {
 	Accordion,
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from '@/shared/components/ui/accordion';
-import {
-	Plus,
-	Trash2,
-	Image,
-	Link,
-	User,
-	FileText,
-	Grid3X3,
-	Palette,
-	GripVertical,
-} from 'lucide-react';
-import { CharacterCounter } from '@/shared/components/CharacterCounter';
+import { Button } from '@/shared/components/ui/button';
+import { Input } from '@/shared/components/ui/input';
+import { Label } from '@/shared/components/ui/label';
+import { Switch } from '@/shared/components/ui/switch';
+import { Textarea } from '@/shared/components/ui/textarea';
 import { DISCORD_LIMITS } from '@/shared/constants/discordLimits';
+import type { Embed, EmbedField } from '@/types/discord';
 
 interface EmbedEditorProps {
 	embed: Embed;
@@ -64,13 +64,13 @@ export function EmbedEditor({
 	};
 
 	const PRESET_COLORS_ARRAY = [
-		{ name: 'Blurple', value: '#5865F2' },
-		{ name: 'Green', value: '#3ba55c' },
-		{ name: 'Yellow', value: '#fee75c' },
-		{ name: 'Fuchsia', value: '#eb459e' },
-		{ name: 'Red', value: '#ed4245' },
-		{ name: 'White', value: '#ffffff' },
-		{ name: 'Black', value: '#23272a' },
+		{ name: 'Roxo Discord', value: '#5865F2' },
+		{ name: 'Verde', value: '#3ba55c' },
+		{ name: 'Amarelo', value: '#fee75c' },
+		{ name: 'Fúcsia', value: '#eb459e' },
+		{ name: 'Vermelho', value: '#ed4245' },
+		{ name: 'Branco', value: '#ffffff' },
+		{ name: 'Preto', value: '#23272a' },
 	] as const;
 
 	return (
@@ -82,9 +82,11 @@ export function EmbedEditor({
 						style={{ backgroundColor: embed.color }}
 					/>
 					<div>
-						<h4 className="font-medium text-foreground">Embed {index + 1}</h4>
+						<h4 className="font-medium text-foreground">
+							{embed.title || `Embed ${index + 1}`}
+						</h4>
 						<p className="text-xs text-muted-foreground">
-							Rich embedded content
+							Conteúdo rico incorporado
 						</p>
 					</div>
 				</div>
@@ -95,7 +97,7 @@ export function EmbedEditor({
 					className="text-destructive hover:bg-destructive/10 hover:text-destructive"
 				>
 					<Trash2 className="w-4 h-4 mr-1" />
-					Remove
+					Remover
 				</Button>
 			</div>
 
@@ -104,13 +106,13 @@ export function EmbedEditor({
 					<AccordionTrigger className="py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 hover:no-underline">
 						<div className="flex items-center gap-2">
 							<FileText className="w-4 h-4 text-primary" />
-							<span className="text-sm">Basic Info</span>
+							<span className="text-sm">Informações Básicas</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent className="pt-3 space-y-3">
 						<div className="space-y-2">
 							<div className="flex items-center justify-between">
-								<Label className="text-xs text-muted-foreground">Title</Label>
+								<Label className="text-xs text-muted-foreground">Título</Label>
 								<CharacterCounter
 									current={embed.title.length}
 									max={DISCORD_LIMITS.EMBED_TITLE}
@@ -119,14 +121,14 @@ export function EmbedEditor({
 							<Input
 								value={embed.title}
 								onChange={(e) => onChange({ ...embed, title: e.target.value })}
-								placeholder="Embed title"
+								placeholder="Título do embed"
 								maxLength={DISCORD_LIMITS.EMBED_TITLE}
 							/>
 						</div>
 						<div className="space-y-2">
 							<div className="flex items-center justify-between">
 								<Label className="text-xs text-muted-foreground">
-									Description
+									Descrição
 								</Label>
 								<CharacterCounter
 									current={embed.description.length}
@@ -138,14 +140,14 @@ export function EmbedEditor({
 								onChange={(e) =>
 									onChange({ ...embed, description: e.target.value })
 								}
-								placeholder="Embed description (supports markdown)"
+								placeholder="Descrição do embed (suporta markdown)"
 								className="min-h-[80px] resize-none"
 								maxLength={DISCORD_LIMITS.EMBED_DESCRIPTION}
 							/>
 						</div>
 						<div className="space-y-2">
 							<Label className="text-xs text-muted-foreground">
-								URL (makes title clickable)
+								URL (torna o título clicável)
 							</Label>
 							<Input
 								value={embed.url}
@@ -160,7 +162,7 @@ export function EmbedEditor({
 					<AccordionTrigger className="py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 hover:no-underline">
 						<div className="flex items-center gap-2">
 							<Palette className="w-4 h-4 text-primary" />
-							<span className="text-sm">Color</span>
+							<span className="text-sm">Cor</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent className="pt-3 space-y-3">
@@ -201,14 +203,14 @@ export function EmbedEditor({
 					<AccordionTrigger className="py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 hover:no-underline">
 						<div className="flex items-center gap-2">
 							<User className="w-4 h-4 text-primary" />
-							<span className="text-sm">Author</span>
+							<span className="text-sm">Autor</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent className="pt-3 space-y-3">
 						<div className="space-y-2">
 							<div className="flex items-center justify-between">
 								<Label className="text-xs text-muted-foreground">
-									Author Name
+									Nome do Autor
 								</Label>
 								<CharacterCounter
 									current={embed.author.name.length}
@@ -223,13 +225,13 @@ export function EmbedEditor({
 										author: { ...embed.author, name: e.target.value },
 									})
 								}
-								placeholder="Author name"
+								placeholder="Nome do autor"
 								maxLength={DISCORD_LIMITS.EMBED_AUTHOR_NAME}
 							/>
 						</div>
 						<div className="space-y-2">
 							<Label className="text-xs text-muted-foreground">
-								Author Icon URL
+								URL do Ícone do Autor
 							</Label>
 							<Input
 								value={embed.author.iconUrl}
@@ -244,7 +246,7 @@ export function EmbedEditor({
 						</div>
 						<div className="space-y-2">
 							<Label className="text-xs text-muted-foreground">
-								Author URL
+								URL do Autor
 							</Label>
 							<Input
 								value={embed.author.url}
@@ -264,13 +266,13 @@ export function EmbedEditor({
 					<AccordionTrigger className="py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 hover:no-underline">
 						<div className="flex items-center gap-2">
 							<Image className="w-4 h-4 text-primary" />
-							<span className="text-sm">Images</span>
+							<span className="text-sm">Imagens</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent className="pt-3 space-y-3">
 						<div className="space-y-2">
 							<Label className="text-xs text-muted-foreground">
-								Thumbnail URL (small, right side)
+								URL da Thumbnail (pequena, lado direito)
 							</Label>
 							<Input
 								value={embed.thumbnail}
@@ -282,7 +284,7 @@ export function EmbedEditor({
 						</div>
 						<div className="space-y-2">
 							<Label className="text-xs text-muted-foreground">
-								Image URL (large, bottom)
+								URL da Imagem (grande, parte inferior)
 							</Label>
 							<Input
 								value={embed.image}
@@ -297,14 +299,14 @@ export function EmbedEditor({
 					<AccordionTrigger className="py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 hover:no-underline">
 						<div className="flex items-center gap-2">
 							<Link className="w-4 h-4 text-primary" />
-							<span className="text-sm">Footer</span>
+							<span className="text-sm">Rodapé</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent className="pt-3 space-y-3">
 						<div className="space-y-2">
 							<div className="flex items-center justify-between">
 								<Label className="text-xs text-muted-foreground">
-									Footer Text
+									Texto do Rodapé
 								</Label>
 								<CharacterCounter
 									current={embed.footer.text.length}
@@ -319,13 +321,13 @@ export function EmbedEditor({
 										footer: { ...embed.footer, text: e.target.value },
 									})
 								}
-								placeholder="Footer text"
+								placeholder="Texto do rodapé"
 								maxLength={DISCORD_LIMITS.EMBED_FOOTER_TEXT}
 							/>
 						</div>
 						<div className="space-y-2">
 							<Label className="text-xs text-muted-foreground">
-								Footer Icon URL
+								URL do Ícone do Rodapé
 							</Label>
 							<Input
 								value={embed.footer.iconUrl}
@@ -345,7 +347,7 @@ export function EmbedEditor({
 					<AccordionTrigger className="py-2 px-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 hover:no-underline">
 						<div className="flex items-center gap-2">
 							<Grid3X3 className="w-4 h-4 text-primary" />
-							<span className="text-sm">Fields ({embed.fields.length})</span>
+							<span className="text-sm">Campos ({embed.fields.length})</span>
 						</div>
 					</AccordionTrigger>
 					<AccordionContent className="pt-3 space-y-3">
@@ -358,7 +360,7 @@ export function EmbedEditor({
 									<div className="flex items-center gap-2">
 										<GripVertical className="w-4 h-4 text-muted-foreground" />
 										<span className="text-xs text-muted-foreground">
-											Field {fieldIndex + 1}
+											Campo {fieldIndex + 1}
 										</span>
 									</div>
 									<div className="flex items-center gap-2">
@@ -382,7 +384,7 @@ export function EmbedEditor({
 									onChange={(e) =>
 										updateField(field.id, { name: e.target.value })
 									}
-									placeholder="Field name"
+									placeholder="Nome do campo"
 									maxLength={DISCORD_LIMITS.EMBED_FIELD_NAME}
 								/>
 								<Textarea
@@ -390,7 +392,7 @@ export function EmbedEditor({
 									onChange={(e) =>
 										updateField(field.id, { value: e.target.value })
 									}
-									placeholder="Field value"
+									placeholder="Valor do campo"
 									className="min-h-[60px] resize-none"
 									maxLength={DISCORD_LIMITS.EMBED_FIELD_VALUE}
 								/>
@@ -406,7 +408,7 @@ export function EmbedEditor({
 										htmlFor={`inline-${field.id}`}
 										className="text-xs text-muted-foreground cursor-pointer"
 									>
-										Inline
+										Na mesma linha (Inline)
 									</Label>
 								</div>
 							</div>
@@ -417,9 +419,9 @@ export function EmbedEditor({
 							className="w-full shadow-clay bg-secondary hover:bg-secondary/80"
 						>
 							<Plus className="w-4 h-4 mr-2" />
-							Add Field
+							Adicionar Campo
 							{embed.fields.length >= DISCORD_LIMITS.EMBED_FIELDS_MAX_COUNT
-								? ' (Max 25)'
+								? ' (Máx 25)'
 								: ''}
 						</Button>
 					</AccordionContent>

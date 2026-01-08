@@ -80,18 +80,18 @@ export function ButtonEditor({ components, onChange }: ButtonEditorProps) {
 	);
 
 	const BUTTON_STYLES_ARRAY = [
-		{ style: 'primary', label: 'Primary', color: '#5865F2' },
-		{ style: 'secondary', label: 'Secondary', color: '#4f545c' },
-		{ style: 'success', label: 'Success', color: '#3ba55c' },
-		{ style: 'danger', label: 'Danger', color: '#ed4245' },
+		{ style: 'primary', label: 'Primário', color: '#5865F2' },
+		{ style: 'secondary', label: 'Secundário', color: '#4f545c' },
+		{ style: 'success', label: 'Sucesso', color: '#3ba55c' },
+		{ style: 'danger', label: 'Perigo', color: '#ed4245' },
 		{ style: 'link', label: 'Link', color: '#00a8fc' },
 	] as const;
 
 	return (
 		<div className="space-y-4">
 			<p className="text-sm text-muted-foreground">
-				Add interactive buttons to your message. Discord allows up to 5 buttons
-				per row and 5 rows total.
+				Adicione botões interativos à sua mensagem. O Discord permite até 5
+				botões por linha e 5 linhas no total.
 			</p>
 
 			<Button
@@ -101,13 +101,13 @@ export function ButtonEditor({ components, onChange }: ButtonEditorProps) {
 				disabled={totalButtons >= 25}
 			>
 				<Plus className="w-4 h-4 mr-2" />
-				Add Button ({totalButtons}/25)
+				Adicionar Botão ({totalButtons}/25)
 			</Button>
 
 			{components.map((row, rowIndex) => (
 				<div key={row.id} className="space-y-3">
 					<div className="text-xs text-muted-foreground font-medium">
-						Row {rowIndex + 1}
+						Linha {rowIndex + 1}
 					</div>
 
 					{row.buttons.map((button, buttonIndex) => (
@@ -119,7 +119,7 @@ export function ButtonEditor({ components, onChange }: ButtonEditorProps) {
 								<div className="flex items-center gap-2">
 									<GripVertical className="w-4 h-4 text-muted-foreground" />
 									<span className="text-sm font-medium">
-										Button {buttonIndex + 1}
+										Botão {buttonIndex + 1}
 									</span>
 								</div>
 								<Button
@@ -134,7 +134,7 @@ export function ButtonEditor({ components, onChange }: ButtonEditorProps) {
 
 							<div className="grid gap-3">
 								<div className="space-y-2">
-									<Label className="text-xs">Label</Label>
+									<Label className="text-xs">Rótulo</Label>
 									<Input
 										value={button.label}
 										onChange={(e) =>
@@ -142,13 +142,13 @@ export function ButtonEditor({ components, onChange }: ButtonEditorProps) {
 												label: e.target.value,
 											})
 										}
-										placeholder="Button text"
+										placeholder="Texto do botão"
 										maxLength={80}
 									/>
 								</div>
 
 								<div className="space-y-2">
-									<Label className="text-xs">Style</Label>
+									<Label className="text-xs">Estilo</Label>
 									<Select
 										value={button.style}
 										onValueChange={(value) =>
@@ -194,7 +194,7 @@ export function ButtonEditor({ components, onChange }: ButtonEditorProps) {
 								)}
 
 								<div className="space-y-2">
-									<Label className="text-xs">Emoji (optional)</Label>
+									<Label className="text-xs">Emoji (opcional)</Label>
 									<Input
 										value={button.emoji || ''}
 										onChange={(e) =>
@@ -208,7 +208,7 @@ export function ButtonEditor({ components, onChange }: ButtonEditorProps) {
 								</div>
 
 								<div className="flex items-center justify-between">
-									<Label className="text-xs">Disabled</Label>
+									<Label className="text-xs">Desativado</Label>
 									<Switch
 										checked={button.disabled}
 										onCheckedChange={(checked) =>
@@ -226,7 +226,8 @@ export function ButtonEditor({ components, onChange }: ButtonEditorProps) {
 
 			{components.length === 0 && (
 				<div className="text-center py-6 text-muted-foreground text-sm">
-					No buttons added yet. Click "Add Button" to get started.
+					Nenhum botão adicionado ainda. Clique em "Adicionar Botão" para
+					começar.
 				</div>
 			)}
 		</div>

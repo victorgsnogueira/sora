@@ -1,7 +1,6 @@
 export interface BotConfig {
 	name: string;
 	avatarUrl: string;
-	verified: boolean;
 }
 
 export interface EmbedAuthor {
@@ -78,7 +77,6 @@ export interface MessageConfig {
 export const DEFAULT_BOT: BotConfig = {
 	name: 'Sora Bot',
 	avatarUrl: 'https://cdn.discordapp.com/embed/avatars/0.png',
-	verified: true,
 };
 
 export const DEFAULT_EMBED: Embed = {
@@ -116,7 +114,7 @@ export const DEFAULT_SELECT_OPTION: SelectOption = {
 
 export const DEFAULT_MESSAGE: MessageConfig = {
 	bot: DEFAULT_BOT,
-	content: 'Hello! This is a preview of your bot message.',
+	content: 'Olá! Esta é uma prévia da mensagem do seu bot.',
 	embeds: [],
 	components: [],
 	selectMenus: [],
