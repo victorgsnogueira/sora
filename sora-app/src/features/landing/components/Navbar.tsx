@@ -27,7 +27,7 @@ export const Navbar = () => {
 						Docs
 					</a>
 					<Link
-						to="/editor"
+						to="/dashboard/editor"
 						className="px-3 py-1.5 md:px-4 md:py-2 bg-[#5865F2] rounded-lg text-xs md:text-sm font-medium hover:bg-[#4752c4] transition-colors"
 					>
 						Abrir Editor

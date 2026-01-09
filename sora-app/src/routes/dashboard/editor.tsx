@@ -6,7 +6,7 @@ import { PlaygroundToolbar } from '@/features/editor/components/PlaygroundToolba
 import type { MessageConfig } from '@/types/discord';
 import { DEFAULT_MESSAGE } from '@/types/discord';
 
-export const Route = createFileRoute('/editor')({
+export const Route = createFileRoute('/dashboard/editor')({
 	component: EditorPage,
 });
 
@@ -15,11 +15,11 @@ function EditorPage() {
 	const [activePanel, setActivePanel] = useState<string | null>(null);
 
 	return (
-		<div className="min-h-screen bg-[#36393f] flex flex-col">
-			<header className="h-12 bg-[#36393f] border-b border-[#202225] flex items-center px-4 shrink-0">
+		<div className="flex flex-col flex-1 -m-4 lg:-m-6">
+			<header className="h-12 bg-background border-b border-border flex items-center px-4 shrink-0">
 				<div className="flex items-center gap-2">
-					<span className="text-[#8e9297] text-sm font-medium">#</span>
-					<span className="text-[#fff] font-semibold">bot-preview</span>
+					<span className="text-muted-foreground text-sm font-medium">#</span>
+					<span className="text-foreground font-semibold">bot-preview</span>
 				</div>
 			</header>
 

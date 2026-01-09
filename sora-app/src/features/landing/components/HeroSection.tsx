@@ -75,7 +75,7 @@ export const HeroSection = () => {
 					style={{ opacity: 0 }}
 				>
 					<Link
-						to="/editor"
+						to="/dashboard/editor"
 						className="px-6 py-3 md:px-8 md:py-4 bg-[#5865F2] rounded-xl text-base md:text-lg font-semibold hover:bg-[#4752c4] transition-all hover:scale-105"
 					>
 						Começar Agora
