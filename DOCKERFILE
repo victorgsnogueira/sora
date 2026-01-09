@@ -1,26 +1,18 @@
-# Base
 FROM node:20-alpine
 
-# Diretório de trabalho
 WORKDIR /app
 
-# Copia configs primeiro (cache)
 COPY package*.json ./
 COPY prisma ./prisma
 COPY src ./src
 COPY tsconfig.json ./
 
-# Instala dependências
 RUN npm install
 
-# Gera Prisma Client
 RUN npx prisma generate
 
-# Build TS → JS
 RUN npm run build
 
-# Porta da API
 EXPOSE 3333
 
-# Start
 CMD ["node", "dist/server.js"]
