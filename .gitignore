@@ -44,3 +44,5 @@ count.txt
 .tanstack
 .wrangler
 .agent
+
+/generated
