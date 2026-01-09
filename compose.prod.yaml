@@ -9,6 +9,7 @@ services:
       - mysql_prod_data:/var/lib/mysql
 
   api:
+    build: .
     image: sora-api:latest
     container_name: sora-api
     restart: always
