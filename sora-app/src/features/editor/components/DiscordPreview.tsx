@@ -112,7 +112,7 @@ function parseDiscordMarkdown(text: string): React.ReactNode {
 				result.push(
 					<code
 						key={createKey('code', content, i)}
-						className="bg-[#2f3136] px-1 rounded text-sm"
+						className="bg-discord-light px-1 rounded text-sm"
 					>
 						{content}
 					</code>,
@@ -136,11 +136,11 @@ function parseDiscordMarkdown(text: string): React.ReactNode {
 					<button
 						key={createKey('spoiler', content, i)}
 						type="button"
-						className="bg-[#2f3136] text-transparent hover:bg-[#35373c] transition-colors rounded px-0.5"
+						className="bg-discord-light text-transparent hover:bg-discord-darker transition-colors rounded px-0.5"
 						onClick={(e) => {
 							const target = e.currentTarget;
 							target.classList.toggle('text-transparent');
-							target.classList.toggle('bg-[#2f3136]');
+							target.classList.toggle('bg-discord-light');
 							target.classList.toggle('bg-muted-foreground/20');
 						}}
 						onKeyDown={(e) => {
@@ -148,7 +148,7 @@ function parseDiscordMarkdown(text: string): React.ReactNode {
 								e.preventDefault();
 								const target = e.currentTarget;
 								target.classList.toggle('text-transparent');
-								target.classList.toggle('bg-[#2f3136]');
+								target.classList.toggle('bg-discord-light');
 								target.classList.toggle('bg-muted-foreground/20');
 							}
 						}}
@@ -368,10 +368,10 @@ export function DiscordPreview({ message }: DiscordPreviewProps) {
 									<div key={selectMenu.id} className="relative">
 										<button
 											type="button"
-											className={`w-full max-w-[400px] flex items-center justify-between px-3 py-[10px] bg-[#2b2d31] rounded text-sm text-left transition-colors ${
+											className={`w-full max-w-[400px] flex items-center justify-between px-3 py-[10px] bg-discord-light rounded text-sm text-left transition-colors ${
 												selectMenu.disabled
 													? 'opacity-50 cursor-not-allowed'
-													: 'hover:bg-[#35373c] cursor-pointer'
+													: 'hover:bg-discord-darker cursor-pointer'
 											}`}
 											onClick={() => {
 												if (!selectMenu.disabled) {
@@ -384,23 +384,23 @@ export function DiscordPreview({ message }: DiscordPreviewProps) {
 											}}
 											disabled={selectMenu.disabled}
 										>
-											<span className="text-[#949ba4]">
+											<span className="text-discord-muted">
 												{selectMenu.options.find((o) => o.default)?.label ||
 													selectMenu.placeholder}
 											</span>
 											<ChevronDown
-												className={`w-5 h-5 text-[#b5bac1] transition-transform ${
+												className={`w-5 h-5 text-muted-foreground transition-transform ${
 													openSelectMenu === selectMenu.id ? 'rotate-180' : ''
 												}`}
 											/>
 										</button>
 
 										{openSelectMenu === selectMenu.id && (
-											<div className="absolute top-full left-0 mt-1 w-full max-w-[400px] bg-[#2b2d31] rounded-md shadow-xl z-50 overflow-hidden py-1">
+											<div className="absolute top-full left-0 mt-1 w-full max-w-[400px] bg-discord-light rounded-md shadow-xl z-50 overflow-hidden py-1">
 												{selectMenu.options.map((option) => (
 													<div
 														key={option.id}
-														className="px-3 py-2 mx-1 rounded hover:bg-[#43444b] cursor-pointer transition-colors"
+														className="px-3 py-2 mx-1 rounded hover:bg-discord-darker cursor-pointer transition-colors"
 														onClick={() => setOpenSelectMenu(null)}
 														onKeyDown={(e) => {
 															if (e.key === 'Enter' || e.key === ' ') {
@@ -417,11 +417,11 @@ export function DiscordPreview({ message }: DiscordPreviewProps) {
 																<span className="text-lg">{option.emoji}</span>
 															)}
 															<div>
-																<div className="text-sm text-[#dbdee1]">
+																<div className="text-sm text-discord">
 																	{option.label}
 																</div>
 																{option.description && (
-																	<div className="text-xs text-[#949ba4]">
+																	<div className="text-xs text-discord-muted">
 																		{option.description}
 																	</div>
 																)}

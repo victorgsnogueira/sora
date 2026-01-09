@@ -219,9 +219,16 @@
 
 	.discord-embed {
 		@apply mt-2 w-fit max-w-[520px] overflow-hidden;
-		background-color: hsl(228 6% 20%);
+		background-color: hsl(220 13% 95%);
 		border-radius: 4px;
 		border-left: 4px solid var(--embed-color, hsl(235 86% 65%));
+		box-shadow:
+			0 2px 4px 0 hsl(0 0% 0% / 0.08),
+			0 1px 2px 0 hsl(0 0% 0% / 0.05);
+	}
+
+	.dark .discord-embed {
+		background-color: hsl(228 6% 20%);
 		box-shadow:
 			4px 4px 12px 0 hsl(0 0% 0% / 0.25),
 			-2px -2px 8px 0 hsl(228 6% 30% / 0.15),
@@ -255,27 +262,53 @@
 			inset -1px -1px 4px 0 hsl(228 6% 35% / 0.1);
 	}
 
+	/* Tema claro do Discord */
 	.bg-discord-dark {
-		background-color: hsl(228 6% 15%);
+		background-color: hsl(0 0% 100%);
 	}
 
 	.bg-discord-darker {
-		background-color: hsl(228 7% 12%);
+		background-color: hsl(210 11% 96%);
 	}
 
 	.bg-discord-light {
-		background-color: hsl(228 6% 23%);
+		background-color: hsl(220 13% 95%);
 	}
 
 	.bg-discord-embed {
-		background-color: hsl(228 6% 20%);
+		background-color: hsl(220 13% 95%);
 	}
 
 	.text-discord {
-		color: hsl(210 17% 90%);
+		color: hsl(228 6% 15%);
 	}
 
 	.text-discord-muted {
+		color: hsl(214 8% 45%);
+	}
+
+	/* Tema escuro do Discord */
+	.dark .bg-discord-dark {
+		background-color: hsl(228 6% 15%);
+	}
+
+	.dark .bg-discord-darker {
+		background-color: hsl(228 7% 12%);
+	}
+
+	.dark .bg-discord-light {
+		background-color: hsl(228 6% 23%);
+	}
+
+	.dark .bg-discord-embed {
+		background-color: hsl(228 6% 20%);
+	}
+
+	.dark .text-discord {
+		color: hsl(210 17% 90%);
+	}
+
+	.dark .text-discord-muted {
 		color: hsl(214 8% 55%);
 	}
 }
