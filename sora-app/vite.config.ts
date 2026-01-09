@@ -17,7 +17,7 @@ export default defineConfig({
 		tailwindcss(),
 	],
 	server: {
-		open: process.env.NODE_ENV !== 'production',
+		open: false,
 		port: 3000,
 		host: '0.0.0.0',
 	},
