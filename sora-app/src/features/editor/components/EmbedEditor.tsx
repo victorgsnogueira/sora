@@ -1,4 +1,5 @@
 import {
+	ChevronDown,
 	FileText,
 	Grid3X3,
 	GripVertical,
@@ -9,6 +10,7 @@ import {
 	Trash2,
 	User,
 } from 'lucide-react';
+import { useState } from 'react';
 import { CharacterCounter } from '@/shared/components/CharacterCounter';
 import {
 	Accordion,
@@ -17,8 +19,14 @@ import {
 	AccordionTrigger,
 } from '@/shared/components/ui/accordion';
 import { Button } from '@/shared/components/ui/button';
+import { Calendar } from '@/shared/components/ui/calendar';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@/shared/components/ui/popover';
 import { Switch } from '@/shared/components/ui/switch';
 import { Textarea } from '@/shared/components/ui/textarea';
 import { DISCORD_LIMITS } from '@/shared/constants/discordLimits';
@@ -340,6 +348,12 @@ export function EmbedEditor({
 								placeholder="https://example.com/footer-icon.png"
 							/>
 						</div>
+						<TimestampPicker
+							timestamp={embed.timestamp}
+							onTimestampChange={(timestamp) =>
+								onChange({ ...embed, timestamp })
+							}
+						/>
 					</AccordionContent>
 				</AccordionItem>
 
@@ -427,6 +441,93 @@ export function EmbedEditor({
 					</AccordionContent>
 				</AccordionItem>
 			</Accordion>
+		</div>
+	);
+}
+
+interface TimestampPickerProps {
+	timestamp?: string;
+	onTimestampChange: (timestamp: string | undefined) => void;
+}
+
+function TimestampPicker({
+	timestamp,
+	onTimestampChange,
+}: TimestampPickerProps) {
+	const [open, setOpen] = useState(false);
+	const date = timestamp ? new Date(timestamp) : undefined;
+	const timeValue = date
+		? `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+		: '00:00';
+
+	const handleTimeChange = (timeString: string) => {
+		if (!date) return;
+
+		const [hours, minutes] = timeString
+			.split(':')
+			.map((v) => Number.parseInt(v, 10));
+		if (Number.isNaN(hours) || Number.isNaN(minutes)) return;
+
+		const newDate = new Date(date);
+		newDate.setHours(hours, minutes, 0, 0);
+		onTimestampChange(newDate.toISOString());
+	};
+
+	return (
+		<div className="space-y-2">
+			<Label className="text-xs text-muted-foreground">Timestamp</Label>
+			<div className="flex gap-2">
+				<Popover open={open} onOpenChange={setOpen}>
+					<PopoverTrigger asChild>
+						<Button
+							variant="outline"
+							className="flex-1 justify-between font-normal"
+						>
+							{date ? date.toLocaleDateString('pt-BR') : 'Selecionar data'}
+							<ChevronDown className="w-4 h-4 opacity-50" />
+						</Button>
+					</PopoverTrigger>
+					<PopoverContent className="w-auto overflow-hidden p-0" align="start">
+						<Calendar
+							mode="single"
+							selected={date}
+							captionLayout="dropdown"
+							onSelect={(selectedDate) => {
+								if (selectedDate) {
+									if (date) {
+										selectedDate.setHours(
+											date.getHours(),
+											date.getMinutes(),
+											0,
+											0,
+										);
+									}
+									onTimestampChange(selectedDate.toISOString());
+								} else {
+									onTimestampChange(undefined);
+								}
+								setOpen(false);
+							}}
+						/>
+					</PopoverContent>
+				</Popover>
+				{date && (
+					<Input
+						type="time"
+						value={timeValue}
+						onChange={(e) => handleTimeChange(e.target.value)}
+						className="w-24 bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+					/>
+				)}
+				<Button
+					variant="outline"
+					size="sm"
+					onClick={() => onTimestampChange(new Date().toISOString())}
+					className="shrink-0"
+				>
+					Agora
+				</Button>
+			</div>
 		</div>
 	);
 }

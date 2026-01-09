@@ -32,6 +32,7 @@ export interface Embed {
 	image: string;
 	footer: EmbedFooter;
 	fields: EmbedField[];
+	timestamp?: string;
 }
 
 export interface ActionButton {

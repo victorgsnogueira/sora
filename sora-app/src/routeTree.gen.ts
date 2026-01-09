@@ -16,12 +16,12 @@ const EditorRoute = EditorRouteImport.update({
 	id: '/editor',
 	path: '/editor',
 	getParentRoute: () => rootRouteImport,
-});
+} as any);
 const IndexRoute = IndexRouteImport.update({
 	id: '/',
 	path: '/',
 	getParentRoute: () => rootRouteImport,
-});
+} as any);
 
 export interface FileRoutesByFullPath {
 	'/': typeof IndexRoute;

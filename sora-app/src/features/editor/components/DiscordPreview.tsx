@@ -333,7 +333,7 @@ export function DiscordPreview({ message }: DiscordPreviewProps) {
 										/>
 									)}
 
-									{embed.footer.text && (
+									{(embed.footer.text || embed.timestamp) && (
 										<div className="flex items-center gap-2 mt-3 text-xs text-muted-foreground">
 											{embed.footer.iconUrl && (
 												<img
@@ -346,7 +346,16 @@ export function DiscordPreview({ message }: DiscordPreviewProps) {
 													}}
 												/>
 											)}
-											<span>{embed.footer.text}</span>
+											{embed.footer.text && <span>{embed.footer.text}</span>}
+											{embed.footer.text && embed.timestamp && <span>•</span>}
+											{embed.timestamp && (
+												<span>
+													{format(
+														new Date(embed.timestamp),
+														"dd/MM/yyyy 'às' HH:mm",
+													)}
+												</span>
+											)}
 										</div>
 									)}
 								</div>

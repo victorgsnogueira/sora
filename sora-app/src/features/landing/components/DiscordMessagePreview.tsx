@@ -42,20 +42,21 @@ export const DiscordMessagePreview = () => {
 					<div className="flex-1 min-w-0">
 						<div className="flex items-center gap-2 mb-1">
 							<span className="font-semibold text-white">Sora</span>
-							<span className="text-xs text-[#949ba4]">Hoje às 14:32</span>
+							<span className="text-xs text-[#949ba4]">
+								Hoje às {String(new Date().getHours()).padStart(2, '0')}:
+								{String(new Date().getMinutes()).padStart(2, '0')}
+							</span>
+						</div>
+
+						<div className="flex items-center gap-2 mb-2">
+							<span className="text-xs text-white font-medium">
+								Sistema de Tickets
+							</span>
 						</div>
 
 						<div className="mt-2 border-l-4 border-[#5865F2] bg-[#2b2d31] rounded-r-md overflow-hidden max-w-md">
 							<div className="p-3">
-								<div className="flex items-center gap-2 mb-2">
-									<span className="text-xs text-white font-medium">
-										Sistema de Tickets
-									</span>
-								</div>
-
-								<h4 className="text-[#00a8fc] font-semibold mb-2 text-left">
-									👋 Bem-vindo ao Suporte!
-								</h4>
+								<h4 className="mb-2 text-left">Bem-vindo ao Suporte!</h4>
 								<p className="text-sm text-[#dbdee1] leading-relaxed mb-3 text-left">
 									Olá! Precisa de ajuda? Selecione uma categoria abaixo para
 									abrir um ticket e nossa equipe irá te atender.
@@ -64,13 +65,13 @@ export const DiscordMessagePreview = () => {
 								<div className="flex gap-3">
 									<div className="flex-1">
 										<div className="text-xs font-semibold text-[#dbdee1] mb-1 text-left">
-											⏰ Horário
+											Horário
 										</div>
 										<div className="text-xs text-[#949ba4] text-left">24/7</div>
 									</div>
 									<div className="flex-1">
 										<div className="text-xs font-semibold text-[#dbdee1] mb-1 text-left">
-											📊 Tempo médio
+											Tempo médio
 										</div>
 										<div className="text-xs text-[#949ba4] text-left">
 											~5 minutos
@@ -80,7 +81,9 @@ export const DiscordMessagePreview = () => {
 
 								<div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/10">
 									<span className="text-[10px] text-[#949ba4]">
-										Sora Tickets • {new Date().toLocaleDateString('pt-BR')}
+										Sora Tickets •{' '}
+										{String(new Date().getHours()).padStart(2, '0')}:
+										{String(new Date().getMinutes()).padStart(2, '0')}
 									</span>
 								</div>
 							</div>
@@ -93,7 +96,7 @@ export const DiscordMessagePreview = () => {
 								className="w-full max-w-md bg-[#1e1f22] border border-[#3f4147] rounded px-3 py-2 flex items-center justify-between text-left hover:border-[#5865F2] transition-colors"
 							>
 								<span className="text-sm text-[#949ba4]">
-									📁 Selecione uma categoria...
+									Selecione uma categoria
 								</span>
 								<ChevronDownIcon
 									className={`w-4 h-4 text-[#949ba4] transition-transform ${
@@ -107,22 +110,18 @@ export const DiscordMessagePreview = () => {
 									<div className="py-1">
 										{[
 											{
-												emoji: '💬',
 												label: 'Dúvidas Gerais',
 												desc: 'Perguntas sobre o servidor',
 											},
 											{
-												emoji: '🛒',
 												label: 'Compras',
 												desc: 'Suporte para compras',
 											},
 											{
-												emoji: '🐛',
 												label: 'Reportar Bug',
 												desc: 'Encontrou um problema?',
 											},
 											{
-												emoji: '💡',
 												label: 'Sugestões',
 												desc: 'Envie suas ideias',
 											},
@@ -131,9 +130,6 @@ export const DiscordMessagePreview = () => {
 												key={option.label}
 												className="px-3 py-2.5 hover:bg-[#35373c] cursor-pointer transition-colors text-left flex items-start gap-2"
 											>
-												<span className="text-base shrink-0">
-													{option.emoji}
-												</span>
 												<div>
 													<div className="text-sm text-white font-semibold">
 														{option.label}

@@ -119,6 +119,7 @@ export function PlaygroundToolbar({
 									inline: field.inline,
 								}))
 							: undefined,
+						timestamp: embed.timestamp || undefined,
 					}))
 				: null,
 			components:
