@@ -13,6 +13,7 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardEditorRouteImport } from './routes/dashboard/editor'
+import { Route as AuthDiscordCallbackRouteImport } from './routes/auth/discord/callback'
 
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
@@ -34,17 +35,24 @@ const DashboardEditorRoute = DashboardEditorRouteImport.update({
   path: '/editor',
   getParentRoute: () => DashboardRoute,
 } as any)
+const AuthDiscordCallbackRoute = AuthDiscordCallbackRouteImport.update({
+  id: '/auth/discord/callback',
+  path: '/auth/discord/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/dashboard/editor': typeof DashboardEditorRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/auth/discord/callback': typeof AuthDiscordCallbackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard/editor': typeof DashboardEditorRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/auth/discord/callback': typeof AuthDiscordCallbackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -52,18 +60,31 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRouteWithChildren
   '/dashboard/editor': typeof DashboardEditorRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/auth/discord/callback': typeof AuthDiscordCallbackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/dashboard/editor' | '/dashboard/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/dashboard/editor'
+    | '/dashboard/'
+    | '/auth/discord/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard/editor' | '/dashboard'
-  id: '__root__' | '/' | '/dashboard' | '/dashboard/editor' | '/dashboard/'
+  to: '/' | '/dashboard/editor' | '/dashboard' | '/auth/discord/callback'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/dashboard/editor'
+    | '/dashboard/'
+    | '/auth/discord/callback'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRouteWithChildren
+  AuthDiscordCallbackRoute: typeof AuthDiscordCallbackRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -96,6 +117,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardEditorRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/auth/discord/callback': {
+      id: '/auth/discord/callback'
+      path: '/auth/discord/callback'
+      fullPath: '/auth/discord/callback'
+      preLoaderRoute: typeof AuthDiscordCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -116,6 +144,7 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRouteWithChildren,
+  AuthDiscordCallbackRoute: AuthDiscordCallbackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

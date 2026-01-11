@@ -191,7 +191,7 @@ export function DiscordPreview({ message }: DiscordPreviewProps) {
 	};
 
 	return (
-		<div className="bg-discord-dark min-h-full rounded-2xl shadow-clay overflow-visible">
+		<div className="bg-discord-dark min-h-full rounded-2xl overflow-visible">
 			<div className="bg-discord-darker px-4 py-3 border-b border-border flex items-center gap-2">
 				<span className="text-muted-foreground">#</span>
 				<span className="text-foreground font-medium">canal-visualizacao</span>

@@ -430,9 +430,9 @@ export function EmbedEditor({
 						<Button
 							variant="outline"
 							onClick={addField}
-							className="w-full shadow-clay bg-secondary hover:bg-secondary/80"
+							className="w-full bg-secondary hover:bg-secondary/80"
 						>
-							<Plus className="w-4 h-4 mr-2" />
+							<Plus className="w-4 h-4" />
 							Adicionar Campo
 							{embed.fields.length >= DISCORD_LIMITS.EMBED_FIELDS_MAX_COUNT
 								? ' (Máx 25)'
@@ -516,7 +516,7 @@ function TimestampPicker({
 						type="time"
 						value={timeValue}
 						onChange={(e) => handleTimeChange(e.target.value)}
-						className="w-24 bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+						className="w-16 bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
 					/>
 				)}
 				<Button

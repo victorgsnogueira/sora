@@ -123,7 +123,7 @@ export function EditorPanel({
 	};
 
 	return (
-		<div className="fixed top-4 left-4 bottom-20 w-[380px] max-w-[calc(100vw-2rem)] bg-card/95 backdrop-blur-sm border border-border rounded-2xl shadow-clay z-40 flex flex-col overflow-hidden animate-scale-in">
+		<div className="absolute top-4 left-4 bottom-20 w-[320px] max-w-[calc(100%-2rem)] bg-card/95 backdrop-blur-sm border border-border rounded-2xl shadow-lg z-40 flex flex-col overflow-hidden animate-scale-in">
 			<div className="flex items-center justify-between p-4 border-b border-border">
 				<h2 className="font-semibold text-foreground">{getPanelTitle()}</h2>
 				<Button

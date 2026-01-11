@@ -1,6 +1,8 @@
 export interface BotConfig {
 	name: string;
 	avatarUrl: string;
+	bannerUrl?: string;
+	token?: string;
 }
 
 export interface EmbedAuthor {

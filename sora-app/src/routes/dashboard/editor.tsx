@@ -15,7 +15,7 @@ function EditorPage() {
 	const [activePanel, setActivePanel] = useState<string | null>(null);
 
 	return (
-		<div className="flex flex-col flex-1 -m-4 lg:-m-6">
+		<div className="relative flex flex-col flex-1 -m-4 lg:-m-6">
 			<header className="h-12 bg-background border-b border-border flex items-center px-4 shrink-0">
 				<div className="flex items-center gap-2">
 					<span className="text-muted-foreground text-sm font-medium">#</span>

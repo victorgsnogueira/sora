@@ -22,7 +22,7 @@ export function CharacterCounter({
 	};
 
 	return (
-		<div className={cn('text-xs', getColorClass(), className)}>
+		<div className={cn('text-xs p-1 whitespace-nowrap', getColorClass(), className)}>
 			{remaining <= 0 ? (
 				<span>Limite atingido</span>
 			) : remaining < 100 ? (
